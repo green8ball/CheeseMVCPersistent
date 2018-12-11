@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using CheeseMVC.Data;
 
 namespace CheeseMVC.Controllers
 {
@@ -11,6 +12,13 @@ namespace CheeseMVC.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        private readonly CheeseDbContext context;
+
+        public CategoryController(CheeseDbContext dbContext)
+        {
+            context = dbContext;
         }
     }
 }
