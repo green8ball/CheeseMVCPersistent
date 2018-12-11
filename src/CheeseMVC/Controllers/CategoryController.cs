@@ -12,6 +12,7 @@ namespace CheeseMVC.Controllers
     {
         public IActionResult Index()
         {
+            ViewBag.Title = "Categories";
             List<CheeseCategory> categories = context.Categories.ToList();
             return View(categories);
         }
