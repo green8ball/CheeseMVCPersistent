@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CheeseMVC.Data;
+using CheeseMVC.Models;
 
 namespace CheeseMVC.Controllers
 {
@@ -11,7 +12,8 @@ namespace CheeseMVC.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            List<CheeseCategory> categories = context.Categories.ToList();
+            return View(categories);
         }
 
         private readonly CheeseDbContext context;
