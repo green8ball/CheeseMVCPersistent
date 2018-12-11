@@ -11,5 +11,7 @@ namespace CheeseMVC.Data
             : base(options)
         { }
 
+        public DbSet<CheeseCategory> Categories { get; set; }
+
     }
 }
