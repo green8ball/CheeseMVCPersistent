@@ -42,6 +42,11 @@ namespace CheeseMVC.Controllers
             }
         }
 
+        public IActionResult ViewMenu(int id)
+        {
+
+        }
+
         private readonly CheeseDbContext context;
 
         public MenuController(CheeseDbContext dbContext)
