@@ -44,7 +44,16 @@ namespace CheeseMVC.Controllers
 
         public IActionResult ViewMenu(int id)
         {
-
+            List<CheeseMenu> items = context
+                .CheeseMenus
+                .Include(item => item.Cheese)
+                .Where(cm => cm.MenuID == id)
+                .ToList();
+            ViewMenuViewModel viewMenuViewModel = new ViewMenuViewModel
+            {
+                Items = items
+            };
+            return View("ViewMenu", viewMenuViewModel);
         }
 
         private readonly CheeseDbContext context;
