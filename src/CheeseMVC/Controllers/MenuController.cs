@@ -42,6 +42,12 @@ namespace CheeseMVC.Controllers
             }
         }
 
+        public IActionResult AddItem(int id)
+        {
+            Menu menu = context.Menus.Single(c => c.ID == id);
+            
+        }
+
         public IActionResult ViewMenu(int id)
         {
             List<CheeseMenu> items = context
