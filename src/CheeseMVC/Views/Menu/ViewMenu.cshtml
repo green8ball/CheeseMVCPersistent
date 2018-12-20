@@ -1,7 +1,9 @@
 ﻿@model CheeseMVC.ViewModels.ViewMenuViewModel
 @{
-    //ViewBag.Title = Model.Menu.Name;
+    ViewBag.Title = Model.Menu.Name;
 }
+
+<h1>@Model.Menu.Name</h1>
 <ul>
     @foreach (var cheeseMenu in Model.Items)
     {
@@ -11,10 +13,10 @@
     }
 </ul>
 
-@*@if (Model.Menu.CheeseMenus.Count == 0)
+@if (Model.Items.Count == 0)
 {
     <p>No cheeses yet!</p>
-}*@
+}
 
 <p><a asp-controller="Menu" asp-action="AddItem" asp-route-id=@Model.Menu.ID>Add Cheese to this Menu</a></p>
 

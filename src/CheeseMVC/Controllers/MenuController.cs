@@ -16,7 +16,7 @@ namespace CheeseMVC.Controllers
         public IActionResult Index()
         {
             ViewBag.Title = "Menus";
-            IList<Menu> menus = context.Menus.Include(c => c.Name).ToList();
+            IList<Menu> menus = context.Menus.ToList();
             return View(menus);
         }
 
@@ -61,7 +61,7 @@ namespace CheeseMVC.Controllers
                 Menu = menu,
                 Cheeses = cheeses
             };
-            return View("AddItem");
+            return View(addMenuItemViewModel);
         }
 
         [HttpPost]
@@ -73,7 +73,7 @@ namespace CheeseMVC.Controllers
                     .Where(cm => cm.CheeseID == addMenuItemViewModel.cheeseID)
                     .Where(cm => cm.MenuID == addMenuItemViewModel.menuID).ToList();
 
-                if (existingItems == null)
+                if (existingItems.Count == 0)
                 {
                     CheeseMenu cheeseMenu = new CheeseMenu
                     {
@@ -82,21 +82,11 @@ namespace CheeseMVC.Controllers
                     };
                     context.CheeseMenus.Add(cheeseMenu);
                     context.SaveChanges();
-                    List<SelectListItem> cheeses = new List<SelectListItem>();
-                    foreach (Cheese cheese in cheesesList)
-                    {
-                        cheeses.Add(new SelectListItem
-                        {
-                            Value = cheese.ID.ToString(),
-                            Text = cheese.Name.ToString()
-                        });
-                    }
-                    addMenuItemViewModel.Cheeses = cheeses;
-                    return Redirect("ViewMenu/" + addMenuItemViewModel.menuID);
+                    return Redirect("/Menu/ViewMenu/" + addMenuItemViewModel.menuID);
                 }
                 else
                 {
-                    return View("AddItem");
+                    return Redirect("/Menu/ViewMenu/" + addMenuItemViewModel.menuID);
                 }
             }
             else

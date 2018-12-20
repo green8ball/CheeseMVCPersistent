@@ -1,7 +1,7 @@
 ﻿@model CheeseMVC.ViewModels.AddMenuItemViewModel;
-@*@{
+@{
     ViewBag.Title = "Add Item to Menu: " + Model.Menu.Name;
-}*@
+}
 <h1>Add Item</h1>
 
 <div asp-validation-summary="All"></div>
@@ -10,10 +10,9 @@
     
     <div class="form-group">
         <Label asp-for="Cheeses"></label>
-        @Model.Cheeses
-        @*<select asp-for="cheeseID" asp-items="@Model.Cheeses"></select>*@
-        @*<input type="hidden" name="MenuID" value=@Model.Menu.ID />
-        <span asp-validation-for="Cheeses"></span>*@
+        <select asp-for="cheeseID" asp-items="Model.Cheeses"></select>
+        <input type="hidden" name="MenuID" value=@Model.Menu.ID />
+        <span asp-validation-for="Cheeses"></span>
     </div>
 
     <input type="submit" value="Add Cheese to Menu" />
