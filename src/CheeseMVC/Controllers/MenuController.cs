@@ -62,7 +62,48 @@ namespace CheeseMVC.Controllers
                 Cheeses = cheeses
             };
             return View("AddItem");
-    }
+        }
+
+        [HttpPost]
+        public IActionResult AddItem(AddMenuItemViewModel addMenuItemViewModel)
+        {
+            if (addMenuItemViewModel.cheeseID != null)
+            {
+                IList<CheeseMenu> existingItems = context.CheeseMenus
+                    .Where(cm => cm.CheeseID == addMenuItemViewModel.cheeseID)
+                    .Where(cm => cm.MenuID == addMenuItemViewModel.menuID).ToList();
+
+                if (existingItems == null)
+                {
+                    CheeseMenu cheeseMenu = new CheeseMenu
+                    {
+                        MenuID = addMenuItemViewModel.menuID,
+                        CheeseID = addMenuItemViewModel.cheeseID
+                    };
+                    context.CheeseMenus.Add(cheeseMenu);
+                    context.SaveChanges();
+                    List<SelectListItem> cheeses = new List<SelectListItem>();
+                    foreach (Cheese cheese in cheesesList)
+                    {
+                        cheeses.Add(new SelectListItem
+                        {
+                            Value = cheese.ID.ToString(),
+                            Text = cheese.Name.ToString()
+                        });
+                    }
+                    addMenuItemViewModel.Cheeses = cheeses;
+                    return Redirect("ViewMenu/" + addMenuItemViewModel.menuID);
+                }
+                else
+                {
+                    return View("AddItem");
+                }
+            }
+            else
+            {
+                return View("AddItem");
+            }
+        }
 
         public IActionResult ViewMenu(int id)
         {
@@ -71,11 +112,13 @@ namespace CheeseMVC.Controllers
                 .Include(item => item.Cheese)
                 .Where(cm => cm.MenuID == id)
                 .ToList();
+            Menu menu = context.Menus.Single(m => m.ID == id);
             ViewMenuViewModel viewMenuViewModel = new ViewMenuViewModel
             {
-                Items = items
+                Items = items,
+                Menu = menu
             };
-            return View("ViewMenu", viewMenuViewModel);
+            return View(viewMenuViewModel);
         }
 
         private readonly CheeseDbContext context;
